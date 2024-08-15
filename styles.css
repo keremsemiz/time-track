@@ -209,6 +209,19 @@ body {
     color: var(--secondary-text-color);
 }
 
+#map-container {
+    margin-top: 2em;
+    text-align: center;
+}
+
+#world-map {
+    width: 100%;
+    max-width: 600px;
+    border: 2px solid var(--primary-text-color);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
 .hidden {
     display: none;
 }
