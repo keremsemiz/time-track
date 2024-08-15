@@ -20,9 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     setInterval(setClock, 1000);
     setClock(); 
-});
 
-document.addEventListener('DOMContentLoaded', function() {
     const timezoneSelect = document.getElementById('timezone');
     const worldClockDisplay = document.getElementById('world-clock-display');
 
@@ -34,5 +32,47 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     timezoneSelect.addEventListener('change', updateWorldClock);
-    updateWorldClock(); 
+    updateWorldClock();
+
+    const addTimezoneBtn = document.getElementById('add-timezone-btn');
+    const multipleClocksContainer = document.getElementById('multiple-clocks');
+
+    function createClockCard(timezone) {
+        const clockCard = document.createElement('div');
+        clockCard.className = 'clock-card';
+        
+        const timezoneName = timezone.replace('_', ' ');
+        const title = document.createElement('h3');
+        title.textContent = timezoneName;
+        
+        const timeDisplay = document.createElement('p');
+        timeDisplay.className = 'time-display';
+        
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'remove-clock-btn';
+        removeBtn.textContent = 'x';
+        
+        removeBtn.addEventListener('click', () => {
+            multipleClocksContainer.removeChild(clockCard);
+        });
+        
+        clockCard.appendChild(title);
+        clockCard.appendChild(timeDisplay);
+        clockCard.appendChild(removeBtn);
+        multipleClocksContainer.appendChild(clockCard);
+        
+        function updateClock() {
+            const now = new Date();
+            const localTime = now.toLocaleString("en-US", { timeZone: timezone, timeStyle: "medium", hourCycle: "h23" });
+            timeDisplay.textContent = localTime;
+        }
+        
+        setInterval(updateClock, 1000);
+        updateClock(); 
+    }
+
+    addTimezoneBtn.addEventListener('click', () => {
+        const selectedTimezone = timezoneSelect.value;
+        createClockCard(selectedTimezone);
+    });
 });
