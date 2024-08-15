@@ -16,6 +16,15 @@
             <div class="toggle-container">
                 <button id="toggle-clock-btn">Switch to Digital Clock</button>
             </div>
+            
+            <div id="settings-panel" class="hidden">
+                <label for="time-format">Time Format:</label>
+                <select id="time-format">
+                    <option value="24">24-Hour</option>
+                    <option value="12">12-Hour</option>
+                </select>
+            </div>
+        
             <div class="clock" id="analog-clock">
                 <div class="clock-face">
                     <div class="hand hour-hand"></div>
@@ -23,6 +32,7 @@
                     <div class="hand second-hand"></div>
                 </div>
             </div>
+            
             <div id="digital-clock" class="hidden">
                 <p class="digital-time"></p>
             </div>
