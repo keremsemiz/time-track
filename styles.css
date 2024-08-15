@@ -60,6 +60,33 @@ body {
     background: #e53935;
 }
 
+.timezone-selector {
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+.timezone-selector label {
+    margin-right: 0.5em;
+    font-size: 1.1rem;
+    color: var(--secondary-text-color);
+}
+
+#timezone {
+    background-color: var(--secondary-bg-color);
+    color: var(--primary-text-color);
+    padding: 0.5em;
+    border-radius: 5px;
+    border: 1px solid var(--primary-text-color);
+    font-size: 1rem;
+}
+
+#world-clock-display {
+    font-size: 1.5rem;
+    color: var(--accent-color);
+    text-align: center;
+    margin-top: 1em;
+}
+
 header {
     background-color: var(--secondary-bg-color);
     padding: 1.5em;
