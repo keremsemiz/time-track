@@ -100,5 +100,36 @@ document.addEventListener('DOMContentLoaded', function() {
             digitalClock.classList.remove('hidden');
             toggleClockBtn.textContent = 'Switch to Analog Clock';
         }
+        
+    const timeFormatSelect = document.getElementById('time-format');
+    const settingsPanel = document.getElementById('settings-panel');
+
+    function updateDigitalClock() {
+        const now = new Date();
+        let hours = now.getHours();
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        let amPm = '';
+
+        if (timeFormatSelect.value === '12') {
+            amPm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12; 
+        }
+
+        hours = String(hours).padStart(2, '0');
+        digitalTimeDisplay.textContent = `${hours}:${minutes}:${seconds} ${amPm}`;
+    }
+
+    timeFormatSelect.addEventListener('change', updateDigitalClock);
+    setInterval(updateDigitalClock, 1000);
+    updateDigitalClock();
+
+    toggleClockBtn.addEventListener('click', () => {
+        if (analogClock.classList.contains('hidden')) {
+            settingsPanel.classList.remove('hidden');
+        } else {
+            settingsPanel.classList.add('hidden');
+        }
     });
+    
 });
