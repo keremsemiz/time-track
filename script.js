@@ -1,42 +1,85 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const toggleClockBtn = document.getElementById('toggle-clock-btn');
+    const addTimezoneBtn = document.getElementById('add-timezone-btn');
+    const setAlarmBtn = document.getElementById('set-alarm-btn');
+
+    const analogClock = document.getElementById('analog-clock');
+    const digitalClock = document.getElementById('digital-clock');
+    const settingsPanel = document.getElementById('settings-panel');
+    const timezoneSelect = document.getElementById('timezone');
+    const multipleClocksContainer = document.getElementById('multiple-clocks');
+    const digitalTimeDisplay = document.querySelector('.digital-time');
+    const timeFormatSelect = document.getElementById('time-format');
+
+    const alarmTimeInput = document.getElementById('alarm-time');
+    const alarmStatus = document.getElementById('alarm-status');
+    let alarmTimeout = null;
+
+    // Analog Clock Functionality
     const hourHand = document.querySelector('.hour-hand');
     const minuteHand = document.querySelector('.minute-hand');
     const secondHand = document.querySelector('.second-hand');
 
-    function setClock() {
+    function setAnalogClock() {
         const now = new Date();
         const seconds = now.getSeconds();
         const minutes = now.getMinutes();
         const hours = now.getHours();
 
         const secondsDegrees = ((seconds / 60) * 360) + 90;
-        const minutesDegrees = ((minutes / 60) * 360) + ((seconds/60)*6) + 90;
-        const hoursDegrees = ((hours / 12) * 360) + ((minutes/60)*30) + 90;
+        const minutesDegrees = ((minutes / 60) * 360) + ((seconds / 60) * 6) + 90;
+        const hoursDegrees = ((hours / 12) * 360) + ((minutes / 60) * 30) + 90;
 
         secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
         minuteHand.style.transform = `rotate(${minutesDegrees}deg)`;
         hourHand.style.transform = `rotate(${hoursDegrees}deg)`;
     }
 
-    setInterval(setClock, 1000);
-    setClock(); 
+    setInterval(setAnalogClock, 1000);
+    setAnalogClock();
 
-    const timezoneSelect = document.getElementById('timezone');
-    const worldClockDisplay = document.getElementById('world-clock-display');
+    // Toggle between Analog and Digital Clock
+    toggleClockBtn.addEventListener('click', function() {
+        if (analogClock.classList.contains('hidden')) {
+            analogClock.classList.remove('hidden');
+            digitalClock.classList.add('hidden');
+            settingsPanel.classList.add('hidden');
+            toggleClockBtn.textContent = 'Switch to Digital Clock';
+        } else {
+            analogClock.classList.add('hidden');
+            digitalClock.classList.remove('hidden');
+            settingsPanel.classList.remove('hidden');
+            toggleClockBtn.textContent = 'Switch to Analog Clock';
+        }
+    });
 
-    function updateWorldClock() {
-        const selectedTimezone = timezoneSelect.value;
+    // Update Digital Clock with 12/24 Hour Format
+    function updateDigitalClock() {
         const now = new Date();
-        const localTime = now.toLocaleString("en-US", { timeZone: selectedTimezone, timeStyle: "medium", hourCycle: "h23" });
-        worldClockDisplay.textContent = `Current time in ${selectedTimezone.replace('_', ' ')}: ${localTime}`;
+        let hours = now.getHours();
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        let amPm = '';
+
+        if (timeFormatSelect.value === '12') {
+            amPm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12;
+        }
+
+        hours = String(hours).padStart(2, '0');
+        digitalTimeDisplay.textContent = `${hours}:${minutes}:${seconds} ${amPm}`;
     }
 
-    timezoneSelect.addEventListener('change', updateWorldClock);
-    updateWorldClock();
+    setInterval(updateDigitalClock, 1000);
+    updateDigitalClock();
 
-    const addTimezoneBtn = document.getElementById('add-timezone-btn');
-    const multipleClocksContainer = document.getElementById('multiple-clocks');
+    // Add Timezone Clock
+    addTimezoneBtn.addEventListener('click', function() {
+        const selectedTimezone = timezoneSelect.value;
+        createClockCard(selectedTimezone);
+    });
 
+    // Create Clock Card for Multiple Time Zones
     function createClockCard(timezone) {
         const clockCard = document.createElement('div');
         clockCard.className = 'clock-card';
@@ -68,101 +111,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         setInterval(updateClock, 1000);
-        updateClock(); 
+        updateClock();
     }
 
-    addTimezoneBtn.addEventListener('click', () => {
-        const selectedTimezone = timezoneSelect.value;
-        createClockCard(selectedTimezone);
-    const toggleClockBtn = document.getElementById('toggle-clock-btn');
-    const analogClock = document.getElementById('analog-clock');
-    const digitalClock = document.getElementById('digital-clock');
-    const digitalTimeDisplay = document.querySelector('.digital-time');
-
-    function updateDigitalClock() {
-        const now = new Date();
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
-        digitalTimeDisplay.textContent = `${hours}:${minutes}:${seconds}`;
-    }
-
-    setInterval(updateDigitalClock, 1000);
-    updateDigitalClock(); 
-
-    toggleClockBtn.addEventListener('click', () => {
-        if (analogClock.classList.contains('hidden')) {
-            analogClock.classList.remove('hidden');
-            digitalClock.classList.add('hidden');
-            toggleClockBtn.textContent = 'Switch to Digital Clock';
-        } else {
-            analogClock.classList.add('hidden');
-            digitalClock.classList.remove('hidden');
-            toggleClockBtn.textContent = 'Switch to Analog Clock';
-        }
-        
-    const timeFormatSelect = document.getElementById('time-format');
-    const settingsPanel = document.getElementById('settings-panel');
-
-    function updateDigitalClock() {
-        const now = new Date();
-        let hours = now.getHours();
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
-        let amPm = '';
-
-        if (timeFormatSelect.value === '12') {
-            amPm = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12 || 12; 
-        }
-
-        hours = String(hours).padStart(2, '0');
-        digitalTimeDisplay.textContent = `${hours}:${minutes}:${seconds} ${amPm}`;
-    }
-
-    timeFormatSelect.addEventListener('change', updateDigitalClock);
-    setInterval(updateDigitalClock, 1000);
-    updateDigitalClock();
-
-    toggleClockBtn.addEventListener('click', () => {
-        if (analogClock.classList.contains('hidden')) {
-            settingsPanel.classList.remove('hidden');
-        } else {
-            settingsPanel.classList.add('hidden');
-        }
-    const worldEventsPanel = document.getElementById('world-events');
-    const sunriseSunsetDisplay = document.getElementById('sunrise-sunset');
-
-    function fetchSunriseSunset(timezone) {
-        const apiUrl = `https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400&formatted=0`;
-
-        fetch(apiUrl)
-            .then(response => response.json())
-            .then(data => {
-                const sunrise = new Date(data.results.sunrise).toLocaleTimeString("en-US", { timeZone: timezone, timeStyle: "short" });
-                const sunset = new Date(data.results.sunset).toLocaleTimeString("en-US", { timeZone: timezone, timeStyle: "short" });
-                sunriseSunsetDisplay.textContent = `Sunrise: ${sunrise}, Sunset: ${sunset}`;
-            })
-            .catch(error => console.error('Error fetching sunrise/sunset data:', error));
-    }
-
-    timezoneSelect.addEventListener('change', () => {
-        fetchSunriseSunset(timezoneSelect.value);
-        worldEventsPanel.classList.remove('hidden');
-    });
-
-    const alarmTimeInput = document.getElementById('alarm-time');
-    const setAlarmBtn = document.getElementById('set-alarm-btn');
-    const alarmStatus = document.getElementById('alarm-status');
-    let alarmTime = null;
-    let alarmTimeout = null;
-
-    setAlarmBtn.addEventListener('click', () => {
+    // Set Alarm Functionality
+    setAlarmBtn.addEventListener('click', function() {
         if (alarmTimeout) {
             clearTimeout(alarmTimeout);
         }
 
-        alarmTime = alarmTimeInput.value;
+        const alarmTime = alarmTimeInput.value;
         if (alarmTime) {
             const [alarmHours, alarmMinutes] = alarmTime.split(':').map(Number);
             const now = new Date();
@@ -181,27 +139,5 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             alarmStatus.textContent = 'Please select a valid time.';
         }
-    const worldMap = document.getElementById('world-map');
-
-    worldMap.addEventListener('click', function(event) {
-        const mapWidth = worldMap.clientWidth;
-        const mapHeight = worldMap.clientHeight;
-
-        const clickX = event.offsetX;
-        const clickY = event.offsetY;
-
-        let selectedTimezone = 'UTC';
-        if (clickX < mapWidth / 3) {
-            selectedTimezone = 'America/New_York';
-        } else if (clickX < 2 * mapWidth / 3) {
-            selectedTimezone = 'Europe/London';
-        } else {
-            selectedTimezone = 'Asia/Tokyo';
-        }
-
-        timezoneSelect.value = selectedTimezone;
-        updateWorldClock();
-        fetchSunriseSunset(selectedTimezone);
-        worldEventsPanel.classList.remove('hidden');
     });
 });
