@@ -13,12 +13,18 @@
 
     <main>
         <section class="clock-container">
-            <div class="clock">
+            <div class="toggle-container">
+                <button id="toggle-clock-btn">Switch to Digital Clock</button>
+            </div>
+            <div class="clock" id="analog-clock">
                 <div class="clock-face">
                     <div class="hand hour-hand"></div>
                     <div class="hand minute-hand"></div>
                     <div class="hand second-hand"></div>
                 </div>
+            </div>
+            <div id="digital-clock" class="hidden">
+                <p class="digital-time"></p>
             </div>
         </section>
 
