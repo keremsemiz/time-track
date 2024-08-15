@@ -21,3 +21,18 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(setClock, 1000);
     setClock(); 
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const timezoneSelect = document.getElementById('timezone');
+    const worldClockDisplay = document.getElementById('world-clock-display');
+
+    function updateWorldClock() {
+        const selectedTimezone = timezoneSelect.value;
+        const now = new Date();
+        const localTime = now.toLocaleString("en-US", { timeZone: selectedTimezone, timeStyle: "medium", hourCycle: "h23" });
+        worldClockDisplay.textContent = `Current time in ${selectedTimezone.replace('_', ' ')}: ${localTime}`;
+    }
+
+    timezoneSelect.addEventListener('change', updateWorldClock);
+    updateWorldClock(); 
+});
