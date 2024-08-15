@@ -74,5 +74,31 @@ document.addEventListener('DOMContentLoaded', function() {
     addTimezoneBtn.addEventListener('click', () => {
         const selectedTimezone = timezoneSelect.value;
         createClockCard(selectedTimezone);
+    const toggleClockBtn = document.getElementById('toggle-clock-btn');
+    const analogClock = document.getElementById('analog-clock');
+    const digitalClock = document.getElementById('digital-clock');
+    const digitalTimeDisplay = document.querySelector('.digital-time');
+
+    function updateDigitalClock() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        digitalTimeDisplay.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    setInterval(updateDigitalClock, 1000);
+    updateDigitalClock(); 
+
+    toggleClockBtn.addEventListener('click', () => {
+        if (analogClock.classList.contains('hidden')) {
+            analogClock.classList.remove('hidden');
+            digitalClock.classList.add('hidden');
+            toggleClockBtn.textContent = 'Switch to Digital Clock';
+        } else {
+            analogClock.classList.add('hidden');
+            digitalClock.classList.remove('hidden');
+            toggleClockBtn.textContent = 'Switch to Analog Clock';
+        }
     });
 });
