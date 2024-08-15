@@ -181,6 +181,27 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             alarmStatus.textContent = 'Please select a valid time.';
         }
+    const worldMap = document.getElementById('world-map');
+
+    worldMap.addEventListener('click', function(event) {
+        const mapWidth = worldMap.clientWidth;
+        const mapHeight = worldMap.clientHeight;
+
+        const clickX = event.offsetX;
+        const clickY = event.offsetY;
+
+        let selectedTimezone = 'UTC';
+        if (clickX < mapWidth / 3) {
+            selectedTimezone = 'America/New_York';
+        } else if (clickX < 2 * mapWidth / 3) {
+            selectedTimezone = 'Europe/London';
+        } else {
+            selectedTimezone = 'Asia/Tokyo';
+        }
+
+        timezoneSelect.value = selectedTimezone;
+        updateWorldClock();
+        fetchSunriseSunset(selectedTimezone);
+        worldEventsPanel.classList.remove('hidden');
     });
-    
 });
