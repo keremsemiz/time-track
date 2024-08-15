@@ -16,7 +16,7 @@
             <div class="toggle-container">
                 <button id="toggle-clock-btn">Switch to Digital Clock</button>
             </div>
-            
+        
             <div id="settings-panel" class="hidden">
                 <label for="time-format">Time Format:</label>
                 <select id="time-format">
@@ -32,9 +32,21 @@
                     <div class="hand second-hand"></div>
                 </div>
             </div>
-            
+        
             <div id="digital-clock" class="hidden">
                 <p class="digital-time"></p>
+            </div>
+        
+            <div id="world-events" class="hidden">
+                <h3>World Events</h3>
+                <p id="sunrise-sunset"></p>
+            </div>
+        
+            <div id="alarm-panel">
+                <h3>Set Alarm</h3>
+                <input type="time" id="alarm-time" />
+                <button id="set-alarm-btn">Set Alarm</button>
+                <p id="alarm-status"></p>
             </div>
         </section>
 
