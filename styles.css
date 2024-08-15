@@ -87,6 +87,52 @@ body {
     margin-top: 1em;
 }
 
+#multiple-clocks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    justify-content: center;
+    margin-top: 2em;
+}
+
+.clock-card {
+    background-color: var(--secondary-bg-color);
+    border-radius: 10px;
+    padding: 1em;
+    width: 200px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.clock-card h3 {
+    margin-bottom: 0.5em;
+    color: var(--accent-color);
+    font-size: 1.2rem;
+}
+
+.clock-card p {
+    font-size: 1.5rem;
+    color: var(--primary-text-color);
+}
+
+.remove-clock-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #e53935;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 header {
     background-color: var(--secondary-bg-color);
     padding: 1.5em;
