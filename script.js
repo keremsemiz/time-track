@@ -130,6 +130,57 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             settingsPanel.classList.add('hidden');
         }
+    const worldEventsPanel = document.getElementById('world-events');
+    const sunriseSunsetDisplay = document.getElementById('sunrise-sunset');
+
+    function fetchSunriseSunset(timezone) {
+        const apiUrl = `https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400&formatted=0`;
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const sunrise = new Date(data.results.sunrise).toLocaleTimeString("en-US", { timeZone: timezone, timeStyle: "short" });
+                const sunset = new Date(data.results.sunset).toLocaleTimeString("en-US", { timeZone: timezone, timeStyle: "short" });
+                sunriseSunsetDisplay.textContent = `Sunrise: ${sunrise}, Sunset: ${sunset}`;
+            })
+            .catch(error => console.error('Error fetching sunrise/sunset data:', error));
+    }
+
+    timezoneSelect.addEventListener('change', () => {
+        fetchSunriseSunset(timezoneSelect.value);
+        worldEventsPanel.classList.remove('hidden');
+    });
+
+    const alarmTimeInput = document.getElementById('alarm-time');
+    const setAlarmBtn = document.getElementById('set-alarm-btn');
+    const alarmStatus = document.getElementById('alarm-status');
+    let alarmTime = null;
+    let alarmTimeout = null;
+
+    setAlarmBtn.addEventListener('click', () => {
+        if (alarmTimeout) {
+            clearTimeout(alarmTimeout);
+        }
+
+        alarmTime = alarmTimeInput.value;
+        if (alarmTime) {
+            const [alarmHours, alarmMinutes] = alarmTime.split(':').map(Number);
+            const now = new Date();
+            const alarmDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), alarmHours, alarmMinutes, 0);
+
+            if (alarmDate > now) {
+                const timeToAlarm = alarmDate.getTime() - now.getTime();
+                alarmTimeout = setTimeout(() => {
+                    alert('Alarm ringing!');
+                    alarmStatus.textContent = 'Alarm completed';
+                }, timeToAlarm);
+                alarmStatus.textContent = `Alarm set for ${alarmDate.toLocaleTimeString("en-US", { timeStyle: "short" })}`;
+            } else {
+                alarmStatus.textContent = 'Selected time has already passed for today.';
+            }
+        } else {
+            alarmStatus.textContent = 'Please select a valid time.';
+        }
     });
     
 });
