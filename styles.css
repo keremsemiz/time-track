@@ -237,6 +237,59 @@ button:active, select:active {
     background-color: #7c49c4;
 }
 
+button, select {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover, select:hover {
+    transform: scale(1.05);
+}
+
+.clock-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.clock-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+#settings-panel {
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+#settings-panel label {
+    margin-right: 0.5em;
+    font-size: 1.1rem;
+    color: var(--secondary-text-color);
+}
+
+#settings-panel select {
+    background-color: var(--secondary-bg-color);
+    color: var(--primary-text-color);
+    padding: 0.5em;
+    border-radius: 5px;
+    border: 1px solid var(--primary-text-color);
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .clock-container {
+        width: 100%;
+        padding: 1em;
+    }
+
+    .clock {
+        width: 100%;
+        height: auto;
+    }
+
+    #digital-clock {
+        font-size: 2rem;
+    }
+}
 
 @media (min-width: 768px) {
     main {
